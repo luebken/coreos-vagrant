@@ -14,7 +14,7 @@ $instance_name_prefix = "core"
 $update_channel = "alpha"
 $image_version = "current"
 $enable_serial_logging = false
-$share_home = false
+$share_home = true
 $vm_gui = false
 $vm_memory = 1024
 $vm_cpus = 1
@@ -124,7 +124,7 @@ Vagrant.configure("2") do |config|
       config.vm.network :private_network, ip: ip
 
       # Uncomment below to enable NFS for sharing the host machine into the coreos-vagrant VM.
-      #config.vm.synced_folder ".", "/home/core/share", id: "core", :nfs => true, :mount_options => ['nolock,vers=3,udp']
+      config.vm.synced_folder ".", "/home/core/share", id: "core", :nfs => true, :mount_options => ['nolock,vers=3,udp']
       $shared_folders.each_with_index do |(host_folder, guest_folder), index|
         config.vm.synced_folder host_folder.to_s, guest_folder.to_s, id: "core-share%02d" % index, nfs: true, mount_options: ['nolock,vers=3,udp']
       end
